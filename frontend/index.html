@@ -4,10 +4,67 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <title>Geile Features!</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+      .button:hover {
+        background-color: #0056b3;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <h1>Willkommen zu deiner verbesserten Webseite!</h1>
+    <h2 id="clock">00:00:00</h2>
+    <button class="button" id="colorButton">Farbe wechseln</button>
+    <h3 id="quote">Inspirierende Zitate erscheinen hier!</h3>
+    <script>
+      // Live-Uhr
+      function updateClock() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString();
+        document.getElementById("clock").innerText = timeString;
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      // Hintergrundfarbe wechseln
+      const colorButton = document.getElementById("colorButton");
+      colorButton.addEventListener("click", () => {
+        const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+        document.body.style.backgroundColor = randomColor;
+      });
+
+      // Inspirierende Zitate
+      async function fetchQuote() {
+        try {
+          const response = await fetch("https://api.quotable.io/random");
+          const data = await response.json();
+          document.getElementById("quote").innerText = data.content;
+        } catch (error) {
+          document.getElementById("quote").innerText = "Fehler beim Laden des Zitats.";
+          console.error(error);
+        }
+      }
+      fetchQuote();
+    </script>
   </body>
 </html>
